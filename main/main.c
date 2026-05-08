@@ -33,6 +33,6 @@ void app_main(void)
 
     while (1) {
         ESP_LOGI(TAG, "Waiting other threads...");
-        vTaskDelay(pdMS_TO_TICKS(10000));
+        vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
