@@ -4,6 +4,5 @@ managed_components/
 *.elf
 *.map
 sdkconfig.old
-ota_server/update.bin
 .clangd
 .vscode/
