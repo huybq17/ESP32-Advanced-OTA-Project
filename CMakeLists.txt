@@ -1,10 +1,10 @@
-# The following five lines of boilerplate have to be in your project's
+﻿# The following five lines of boilerplate have to be in your project's
 # CMakeLists in this exact order for cmake to work correctly
-project(OTA_ESP32)
-
 cmake_minimum_required(VERSION 3.22)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 
 # Cấu hình phiên bản thủ công. Hãy thay đổi số này mỗi khi release bản OTA mới!
 set(PROJECT_VER "1.0.0")
+
+project(OTA_ESP32)
