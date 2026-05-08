@@ -5,6 +5,7 @@
 #include "esp_http_client.h"
 #include "esp_ota_ops.h"
 #include "esp_app_format.h"
+#include "esp_crt_bundle.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include <string.h>
@@ -22,8 +23,10 @@ static void ota_task(void *pvParameter)
     esp_http_client_config_t config = {
         .url = OTA_URL,
         .use_global_ca_store = false,
-        .crt_bundle_attach = NULL,
+        .crt_bundle_attach = esp_crt_bundle_attach,
         .keep_alive_enable = true,
+        .buffer_size = 8192,         // extend Receive Buffer size for HTTPS
+        .buffer_size_tx = 4096,      // extend Transmit Buffer size for HTTPS
     };
 
     esp_https_ota_config_t ota_config = {
