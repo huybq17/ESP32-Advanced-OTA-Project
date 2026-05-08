@@ -5,6 +5,6 @@ cmake_minimum_required(VERSION 3.22)
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 
 # Cấu hình phiên bản thủ công. Hãy thay đổi số này mỗi khi release bản OTA mới!
-set(PROJECT_VER "1.0.2")
+set(PROJECT_VER "1.0.3")
 
 project(OTA_ESP32)
