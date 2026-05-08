@@ -15,12 +15,12 @@ static void wifi_event_handler(void* arg, esp_event_base_t event_base,
         esp_wifi_connect();
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
         esp_wifi_connect();
-        // PUBLISH: Phát tín hiệu rớt mạng ra toàn hệ thống
+        // PUBLISH: Emit Wi-Fi disconnected signal to the whole system
         esp_event_post(APP_EVENTS, APP_EVENT_WIFI_DISCONNECTED, NULL, 0, portMAX_DELAY);
-        ESP_LOGI(TAG, "Kết nối lại tới Access Point");
+        ESP_LOGI(TAG, "Reconnecting to Access Point");
     } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
         ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
-        ESP_LOGI(TAG, "Bắt được IP: " IPSTR, IP2STR(&event->ip_info.ip));
+        ESP_LOGI(TAG, "Got IP: " IPSTR, IP2STR(&event->ip_info.ip));
         // PUBLISH: Phát tín hiệu ĐÃ CÓ MẠNG (OTA_Module sẽ hứng lấy cái này để chạy)
         esp_event_post(APP_EVENTS, APP_EVENT_WIFI_CONNECTED, NULL, 0, portMAX_DELAY);
     }
@@ -34,7 +34,7 @@ void wifi_manager_init(void)
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 
-    // Lắng nghe các thay đổi Wifi/IP Default từ ESP-IDF sau đó Emit vào APP_EVENTS
+    // Listen to Wi-Fi/IP Default changes from ESP-IDF then emit to APP_EVENTS
     esp_event_handler_instance_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &wifi_event_handler, NULL, NULL);
     esp_event_handler_instance_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &wifi_event_handler, NULL, NULL);
 
@@ -50,5 +50,5 @@ void wifi_manager_init(void)
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config) );
     ESP_ERROR_CHECK(esp_wifi_start() );
 
-    ESP_LOGI(TAG, "Khởi tạo thành công Wifi STA Manager.");
+    ESP_LOGI(TAG, "Wifi STA Manager initialized successfully.");
 }
